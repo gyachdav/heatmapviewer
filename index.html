@@ -1,0 +1,46 @@
+<html>
+	<head>
+
+		<script language="JavaScript" type="text/javascript" src="/~gyachdav/javascript/d3/d3.v3.min.js">
+</script>
+		<script language="JavaScript" type="text/javascript" src="/~gyachdav/javascript/jquery/jquery.min.js">
+</script>
+		<script type="text/javascript" src="biojs.heatmap.js">
+</script>
+		<script type="text/javascript" src="biojs.heatmapviewer.js">
+</script>
+		<title></title>
+		<style type="text/css">
+label.axis {
+		font-family: sans-serif;
+		font-size: 9px;
+		}
+		</style>
+	</head>
+	<body>
+		<div id='heatmapContainer'></div><script type="text/javascript">
+try {
+			var dataToFetch = 'data';
+			var jqxhr = $.getJSON(dataToFetch);
+
+			jqxhr.done(function(data) {
+
+				HEATMAP_VIEWER.init({
+					data: data,
+					user_defined_config: {
+						heatmap_config:
+						{
+							colorLow: 'blue',
+							// colorHigh: 'blue',
+
+						},
+					},
+					targetDiv: 'heatmapContainer'
+				});
+			});
+		} catch (err) {
+			console.log(err);
+		};
+		</script>
+	</body>
+</html>
