@@ -1,4 +1,106 @@
-var HIGHLIGHT_FRAME = (function($) {
+var SCALE = (function($) {
+	var data_array = [];
+
+	var my = {};
+	var dataLow, dataMid, dataHigh;
+	var colorLow, colorMid, colorHigh;
+	var svg;
+
+
+	var drag = d3.behavior.drag()
+		.on("drag", function(d, i) {
+			d.x += d3.event.dx
+			// d.y += d3.event.dy
+			d3.select(this).attr("transform", function(d, i) {
+				return "translate(" + [d.x] + ",20)"
+			})
+		});
+
+
+	my.init = function(_config) {
+		scoreLow = _config.scoreLow;
+		scoreMid = _config.scoreMid;
+		scoreHigh = _config.scoreHigh;
+		colorLow = _config.colorLow;
+		colorMid = _config.colorMid;
+		colorHigh = _config.colorHigh;
+		svg = _config.svg;
+
+
+		for (var idx = scoreLow; idx <= scoreHigh; idx++)
+			data_array.push(idx);
+
+		var width = 960,
+			height = 200;
+
+		var colorScale = d3.scale.linear()
+			.domain([scoreLow, scoreMid, scoreHigh])
+			.range([colorLow, colorMid, colorHigh]);
+
+		var x = 50,
+			y = 20;
+
+		var g = svg.append("g")
+			.data([{
+				"x": x,
+				"y": y
+			}])
+			.attr("transform", "translate(" + x +",20)")
+			.call(drag);
+
+		var myscale = g.selectAll("lines")
+			.data(data_array)
+			.enter().append("svg:line")
+			.attr("x1", function(d, i) {
+				return i;
+			})
+			.attr("y1", 0)
+			.attr("x2", function(d, i) {
+				return i;
+			})
+			.attr("y1", 20)
+			.style("stroke", function(d) {
+				return (colorScale(d));
+			})
+			.style("stroke-width", 5);
+
+
+		g.append("text")
+			.attr("y", -5)
+			.attr("x", -15)
+			.text(-100)
+			.attr("transform", "translate(0, 0 )");
+
+		var midPt = data_array.length / 2;
+
+
+
+		g.append("text")
+			.attr("class", "caption")
+			.attr("y", -5)
+			.attr("x", midPt - 2)
+			.text(0);
+
+
+		var maxPt = data_array.length;
+
+
+
+		g.append("text")
+			.attr("class", "caption")
+			.attr("y", -5)
+			.attr("x", maxPt - 2)
+			.text(100);
+
+
+
+	}
+
+	return my;
+}(jQuery));
+
+
+var SLIDING_WINDOW = (function($) {
 
 	var my = {};
 	var svg, max_frame;
@@ -21,9 +123,9 @@ var HIGHLIGHT_FRAME = (function($) {
 			if (d.x > max_frame)
 				d.x = max_frame;
 			current_x = d.x;
-			callback.apply(null,[d]);
-		    d3.select(this).style('cursor','-webkit-grab');
-		    d3.select(this).style('cursor','-moz-grab');
+			callback.apply(null, [d]);
+			d3.select(this).style('cursor', '-webkit-grab');
+			d3.select(this).style('cursor', '-moz-grab');
 			// console.log(d.x);
 		})
 		.on("drag", function(d, i) {
@@ -35,8 +137,8 @@ var HIGHLIGHT_FRAME = (function($) {
 				if (d.x > max_frame)
 					return "translate(" + (max_frame + 10) + ")";
 
-			    d3.select(this).style('cursor','-webkit-grabbing');
-			    d3.select(this).style('cursor','-moz-grabbing');
+				d3.select(this).style('cursor', '-webkit-grabbing');
+				d3.select(this).style('cursor', '-moz-grabbing');
 				return "translate(" + [d.x] + ")";
 			})
 		});
@@ -60,8 +162,8 @@ var HIGHLIGHT_FRAME = (function($) {
 			.style("fill-opacity", 0)
 			.style("stroke", "blue")
 			.style("stroke-width", 4)
-		        .style("cursor", "-webkit-grab")
-		        .style("cursor", "-moz-grab")
+			.style("cursor", "-webkit-grab")
+			.style("cursor", "-moz-grab")
 			.data([{
 				"x": x,
 			}])

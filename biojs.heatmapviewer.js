@@ -108,11 +108,36 @@ var HEATMAP_VIEWER = (function($) {
 
 		HEATMAP.init(heatmap_viewer_config.heatmap_config, svg).draw();
 
+		//SCALE
+		heatmap_viewer_config.heatmap_config.targetDivNode.append($('<div>')
+			.attr('id', 'scaleDiv')
+			.css('width', '75%')
+			.css('margin', '25px'));
+
+		svgScale = d3.select("#scaleDiv").append("svg")
+				.attr("width", heatmap_viewer_config.heatmap_config.dimensions.canvas_width + heatmap_viewer_config.heatmap_config.canvas_margin.right + heatmap_viewer_config.heatmap_config.canvas_margin.left)
+				.attr("height", "40")
+				.attr("transform", "translate(" + heatmap_viewer_config.heatmap_config.canvas_margin.right + "," + heatmap_viewer_config.heatmap_config.canvas_margin.top + ")");
+
+
+		SCALE.init({
+			colorLow: heatmap_viewer_config.heatmap_config.colorLow,
+			colorMid: heatmap_viewer_config.heatmap_config.colorMed,
+			colorHigh: heatmap_viewer_config.heatmap_config.colorHigh,
+
+			scoreLow: heatmap_viewer_config.heatmap_config.scoreLow,
+			scoreMid: heatmap_viewer_config.heatmap_config.scoreMed,
+			scoreHigh: heatmap_viewer_config.heatmap_config.scoreHigh,
+			svg: svgScale
+
+		})
+		//SCALE
+
 		if (heatmap_viewer_config.heatmap_config.dimensions.cell_width < min_font_size) {
 			orig_cell_width = heatmap_viewer_config.heatmap_config.dimensions.cell_width;
 
 			if (heatmap_viewer_config.show_zoom_panel)
-				HIGHLIGHT_FRAME.init({
+				SLIDING_WINDOW.init({
 					dimensions: {
 						cell_width: heatmap_viewer_config.heatmap_config.dimensions.cell_width,
 						cell_count: heatmap_viewer_config.heatmap_config.dimensions.cell_count,
