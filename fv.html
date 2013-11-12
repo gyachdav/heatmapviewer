@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/vendor/biojs/dependencies/jquery/jquery.tooltip.css"/>
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/vendor/jquery/jquery-ui.css" />
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/css/ppres.css" />
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/css/bootstrap/css/docs.css">
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/css/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/css/bootstrap/css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" href="/~guyyachdav/pp-results/css/tablesorter/style.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<div id='featureViewerContainer'></div>
+		<div id='heatmapContainer'></div>
+
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/javascript/jquery/jquery.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/javascript/underscore/underscore-min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/jquery/jquery-migrate-1.1.1.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/jquery/jquery-ui.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/modernizr/modernizr.js"></script>
+<!-- TODO lading the bootstrap jscript module twice seems to confuse and disable some functionality for now the shell app will be the one lodign this script -->
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/javascript/bootstrap/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript" src="/~guyyachdav/pp-results/view/ppres.browsersupport.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/javascript/d3/d3.v3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/Biojs.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/Biojs.FeatureViewer.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/Biojs.Sequence.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/jquery/jquery.tooltip.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/jquery/jquery.bgiframe.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/jquery/jquery.dimensions.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/jquery/jquery.url.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/raphael.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/canvg.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/rgbcolor.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/library/jquery.xml2json.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/library/jquery.tablesorter.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/library/javascript.md5.js"></script>
+<script language="JavaScript" type="text/javascript" src="ppres-data.js"></script>
+<script language="JavaScript" type="text/javascript" src="fv_obj.js"></script>
+		
+<script language="JavaScript" type="text/javascript" src="Biojs.FeatureViewer.js"></script>
+<script language="JavaScript" type="text/javascript" src="ppres.featureviewer.js"></script>
+
+		<script type="text/javascript" src="biojs.heatmap.js">
+</script>
+		<script type="text/javascript" src="biojs.heatmapviewer.js">
+</script>
+
+
+
+
+<script language="JavaScript">
+
+dataObj = new PPResData();
+dataObj.setJsonData(fvobj);
+
+$fvd = jQuery('featureViewerContainer');
+var fv = new FEATURE_VIEWER({
+	targetDiv: 'featureViewerContainer',
+	dataObj: dataObj,
+	providers: ["PROFsec"],
+});
+fv.setup();
+fv.draw();
+
+
+
+try {
+
+
+
+			var dataToFetch = 'mc4r';
+			var jqxhr = $.getJSON(dataToFetch);
+
+			jqxhr.done(function(data) {
+
+				HEATMAP_VIEWER.init({
+					data: data,
+					user_defined_config: {
+						heatmap_config:
+						{
+							colorLow: 'blue',
+							// colorHigh: 'blue',
+
+						},
+					},
+					targetDiv: 'heatmapContainer'
+				});
+			});
+		} catch (err) {
+			console.log(err);
+		};
+
+</script>
+
+</body>
+</html>
