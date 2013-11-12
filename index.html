@@ -1,6 +1,5 @@
 <html>
 	<head>
-
 		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/d3/d3.v3.min.js">
 </script>
 		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/jquery/jquery.min.js">
@@ -9,6 +8,8 @@
 </script>
 		<script type="text/javascript" src="biojs.heatmapviewer.js">
 </script>
+
+
 		<title></title>
 		<style type="text/css">
 label.axis {
@@ -18,9 +19,16 @@ label.axis {
 		</style>
 	</head>
 	<body>
-		<div id='heatmapContainer'></div><script type="text/javascript">
+		<div id='featureViewerContainer'></div>
+		<div id='heatmapContainer'></div>
+
+
+		<script type="text/javascript">
 try {
-			var dataToFetch = 'data';
+
+
+
+			var dataToFetch = 'mc4r';
 			var jqxhr = $.getJSON(dataToFetch);
 
 			jqxhr.done(function(data) {
