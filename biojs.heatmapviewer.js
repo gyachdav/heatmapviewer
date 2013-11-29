@@ -99,14 +99,46 @@ var HEATMAP_VIEWER = (function($) {
 			_end: (heatmap_viewer_config.origData.length / 20)
 		});
 
-		svg = d3.select("#" + heatmap_viewer_config.targetDivName).append("svg")
+		svg = d3.select("#" + heatmap_viewer_config.targetDivName)
+		// .append("canvas").attr("id", "hm_canvas")
+		.append("svg").attr("id", "hm_canvas")
 			.attr("width", heatmap_viewer_config.heatmap_config.dimensions.canvas_width + heatmap_viewer_config.heatmap_config.canvas_margin.right + heatmap_viewer_config.heatmap_config.canvas_margin.left)
 			.attr("height", heatmap_viewer_config.heatmap_config.dimensions.canvas_height + heatmap_viewer_config.heatmap_config.canvas_margin.top + heatmap_viewer_config.heatmap_config.canvas_margin.bottom)
-			.append("g")
+
+		.append("g")
 			.attr("transform", "translate(" + heatmap_viewer_config.heatmap_config.canvas_margin.right + "," + heatmap_viewer_config.heatmap_config.canvas_margin.top + ")");
 
 
 		HEATMAP.init(heatmap_viewer_config.heatmap_config, svg).draw();
+
+		$('<a>', {
+			text: 'Export Image',
+			title: 'Export',
+			href: '#',
+			click: function() {
+				var svg_el = $("#heatmapDiv").html();
+				// svg_el().remove("slidingWindowElement");
+
+				var canvas = document.createElement("canvas");
+				canvg(canvas, svg_el);
+				dataURL = canvas.toDataURL();
+
+				jQuery('<div id="uniprotFeaturePainter-imageExportedDiv"></div>')
+					.html('<img id="uniprotFeaturePainter-imageExported" alt="exported image" src="' + dataURL + '"/>')
+					.dialog({
+						autoOpen: true,
+						title: 'Exported image',
+						modal: true,
+						width: 1000+ 20
+					});
+				return false;
+			}
+		}).appendTo('body');
+
+		
+
+		// var img = canvas.toDataURL("image/png");
+		// document.write('<img src="' + img + '"/>');
 
 		//SCALE
 		heatmap_viewer_config.heatmap_config.targetDivNode.append($('<div>')
@@ -115,9 +147,9 @@ var HEATMAP_VIEWER = (function($) {
 			.css('margin', '25px'));
 
 		svgScale = d3.select("#scaleDiv").append("svg")
-				.attr("width", heatmap_viewer_config.heatmap_config.dimensions.canvas_width + heatmap_viewer_config.heatmap_config.canvas_margin.right + heatmap_viewer_config.heatmap_config.canvas_margin.left)
-				.attr("height", "40")
-				.attr("transform", "translate(" + heatmap_viewer_config.heatmap_config.canvas_margin.right + "," + heatmap_viewer_config.heatmap_config.canvas_margin.top + ")");
+			.attr("width", heatmap_viewer_config.heatmap_config.dimensions.canvas_width + heatmap_viewer_config.heatmap_config.canvas_margin.right + heatmap_viewer_config.heatmap_config.canvas_margin.left)
+			.attr("height", "40")
+			.attr("transform", "translate(" + heatmap_viewer_config.heatmap_config.canvas_margin.right + "," + heatmap_viewer_config.heatmap_config.canvas_margin.top + ")");
 
 
 		SCALE.init({

@@ -457,7 +457,7 @@ Feature.MD = function(_feature, _feature_provider, _feature_type) {
 
 var Track = function(__height, __margin) {
 
-	var default_height = 10,
+	var default_height = 20,
 		config = {},
 		shift_bottom_line = true,
 		features = [];

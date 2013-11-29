@@ -45,7 +45,7 @@ var SCALE = (function($) {
 				"x": x,
 				"y": y
 			}])
-			.attr("transform", "translate(" + x +",20)")
+			.attr("transform", "translate(" + x + ",20)")
 			.call(drag);
 
 		var myscale = g.selectAll("lines")
@@ -95,6 +95,10 @@ var SCALE = (function($) {
 
 
 	}
+
+
+
+	
 
 	return my;
 }(jQuery));
@@ -159,6 +163,7 @@ var SLIDING_WINDOW = (function($) {
 			.attr("y", -5)
 			.attr("width", dimensions.frame_width)
 			.attr("height", dimensions.height + 15)
+			// .attr("id", "slidingWindowElement")
 			.style("fill-opacity", 0)
 			.style("stroke", "blue")
 			.style("stroke-width", 4)

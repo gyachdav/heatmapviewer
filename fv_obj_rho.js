@@ -4111,221 +4111,303 @@ var fvobj = {
                 "featureProviderGroup": {
                     "feature": [
                         {
-                            "location": {
-                                "begin": {
-                                    "position": "36"
-                                },
-                                "end": {
-                                    "position": "42"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "44"
-                                },
-                                "end": {
-                                    "position": "52"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "56"
-                                },
-                                "end": {
-                                    "position": "64"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "72"
-                                },
-                                "end": {
-                                    "position": "89"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "92"
-                                },
-                                "end": {
-                                    "position": "100"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "107"
-                                },
-                                "end": {
-                                    "position": "136"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "137"
-                                },
-                                "end": {
-                                    "position": "140"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "151"
-                                },
-                                "end": {
-                                    "position": "168"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "172"
-                                },
-                                "end": {
-                                    "position": "179"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "186"
-                                },
-                                "end": {
-                                    "position": "189"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "200"
-                                },
-                                "end": {
-                                    "position": "233"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "244"
-                                },
-                                "end": {
-                                    "position": "250"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "251"
-                                },
-                                "end": {
-                                    "position": "261"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "262"
-                                },
-                                "end": {
-                                    "position": "265"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "267"
-                                },
-                                "end": {
-                                    "position": "277"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "284"
-                                },
-                                "end": {
-                                    "position": "297"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "304"
-                                },
-                                "end": {
-                                    "position": "307"
-                                }
-                            },
-                            "soTermId": "SO:0001111",
-                            "type": "strand"
-                        },
-                        {
-                            "location": {
-                                "begin": {
-                                    "position": "311"
-                                },
-                                "end": {
-                                    "position": "323"
-                                }
-                            },
-                            "soTermId": "SO:0001114",
-                            "type": "helix"
-                        }
+"location": {
+"begin": {
+"position": "3"
+},
+"end": {
+"position": "5"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "10"
+},
+"end": {
+"position": "13"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "15"
+},
+"end": {
+"position": "17"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "34"
+},
+"end": {
+"position": "64"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "66"
+},
+"end": {
+"position": "68"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "71"
+},
+"end": {
+"position": "89"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "91"
+},
+"end": {
+"position": "100"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "103"
+},
+"end": {
+"position": "105"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "106"
+},
+"end": {
+"position": "139"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "143"
+},
+"end": {
+"position": "145"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "150"
+},
+"end": {
+"position": "168"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "170"
+},
+"end": {
+"position": "172"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "179"
+},
+"end": {
+"position": "181"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "186"
+},
+"end": {
+"position": "188"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "192"
+},
+"end": {
+"position": "195"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "196"
+},
+"end": {
+"position": "198"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "200"
+},
+"end": {
+"position": "210"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "213"
+},
+"end": {
+"position": "223"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "239"
+},
+"end": {
+"position": "241"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "242"
+},
+"end": {
+"position": "277"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "285"
+},
+"end": {
+"position": "294"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "295"
+},
+"end": {
+"position": "299"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "301"
+},
+"end": {
+"position": "308"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "311"
+},
+"end": {
+"position": "321"
+}
+},
+"type": "helix"
+},
+{
+"location": {
+"begin": {
+"position": "332"
+},
+"end": {
+"position": "334"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "336"
+},
+"end": {
+"position": "338"
+}
+},
+"type": "strand"
+},
+{
+"location": {
+"begin": {
+"position": "339"
+},
+"end": {
+"position": "342"
+}
+},
+"type": "strand"
+}
+
                     ],
                     "provider": "PROFsec",
                     "ref": "3",

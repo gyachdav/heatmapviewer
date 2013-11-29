@@ -1,9 +1,14 @@
 <html>
 	<head>
+
+<link rel="stylesheet" href="/~guyyachdav/pp-results/vendor/jquery/jquery-ui.css" />
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/canvg.js"></script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/rgbcolor.js"></script>
 		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/d3/d3.v3.min.js">
 </script>
 		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/jquery/jquery.min.js">
 </script>
+<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/jquery/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="biojs.heatmap.js">
 </script>
 		<script type="text/javascript" src="biojs.heatmapviewer.js">
@@ -38,13 +43,14 @@ try {
 					user_defined_config: {
 						heatmap_config:
 						{
-							colorLow: 'blue',
-							// colorHigh: 'blue',
+							// colorHigh: 'red',
 
 						},
 					},
 					targetDiv: 'heatmapContainer'
 				});
+
+				
 			});
 		} catch (err) {
 			console.log(err);
