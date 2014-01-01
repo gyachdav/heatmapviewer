@@ -1,17 +1,11 @@
 <html>
 	<head>
-
-<link rel="stylesheet" href="/~guyyachdav/pp-results/vendor/jquery/jquery-ui.css" />
-<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/canvg.js"></script>
-<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/biojs/dependencies/graphics/rgbcolor.js"></script>
+		<script language="JavaScript" type="text/javascript" src="Biojs.js"/></script>
 		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/d3/d3.v3.min.js">
 </script>
-		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/jquery/jquery.min.js">
+		<script language="JavaScript" type="text/javascript" src="/~guyyachdav/javascript/jquery/jquery-1.9.1.min.js">
 </script>
-<script language="JavaScript" type="text/javascript" src="/~guyyachdav/pp-results/vendor/jquery/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="biojs.heatmap.js">
-</script>
-		<script type="text/javascript" src="biojs.heatmapviewer.js">
+		<script type="text/javascript" src="biojs.HeatmapViewer.js">
 </script>
 
 
@@ -24,33 +18,25 @@ label.axis {
 		</style>
 	</head>
 	<body>
-		<div id='featureViewerContainer'></div>
 		<div id='heatmapContainer'></div>
 
 
 		<script type="text/javascript">
 try {
 
-
-
 			var dataToFetch = 'data.rho';
 			var jqxhr = $.getJSON(dataToFetch);
 
 			jqxhr.done(function(data) {
-
-				HEATMAP_VIEWER.init({
-					data: data,
-					user_defined_config: {
-						heatmap_config:
-						{
-							// colorHigh: 'red',
-
+				var painter = new Biojs.HeatmapViewer({
+						jsonData: data,
+						user_defined_config: {
+							colorLow: 'blue',
+									colorMed: 'white',
+										colorHigh: 'red'
 						},
-					},
 					targetDiv: 'heatmapContainer'
 				});
-
-				
 			});
 		} catch (err) {
 			console.log(err);
