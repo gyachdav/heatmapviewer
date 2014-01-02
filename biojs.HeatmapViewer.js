@@ -5,7 +5,6 @@
  *
  * Please remember to use jQuery in <a href="http://docs.jquery.com/Using_jQuery_with_Other_Libraries">compatibility mode</a>, particularly a good idea if you use other libraries.
  *
- *
  * @author <a href="mailto:gyachdav@rostlab.org">Guy Yachdav</a>
  * @version 1.0.0
  * @category 0
@@ -16,23 +15,81 @@
  * @requires <a href='http://d3js.org/d3.v3.min.js'>D3 Version 3</a>
  * @dependency <script language="JavaScript" type="text/javascript" src="../biojs/dependencies/jquery/d3.v3.min.js"></script>
  *
- *
  * @param {Object} options An object with the options for HeatmapViewer component.
  *
- * @option {string} target
+ * @option {string} targetDiv
  *    Identifier of the DIV tag where the component should be displayed.
  *
- * @option {string} json
- *    The JSON object describing the data to be displayed and the component's configuration.
- *    It must have the following members:
- 
+ * @option {string} jsonData
+ *    The jsonData object contains the data to be displayed
+ *    The jsonData object must follow this format:
  *
+ *	[{
+ *	 col: int,   // columns position
+ *	 row: int,   // row position
+ *	 label: string, // column label
+ *	 score: float, // cell's score
+ *	 row_label: string // row label
+ *	}]
+ *
+ * Example 4 items grid
+ *  <pre class="brush: js" title="Configuration object">
+ *    		[{
+ *		    "col": 0,
+ *		    "row": 0,
+ *		    "label": "M",
+ *		    "score": 27,
+ *		    "row_label": "A"
+ *		}, {
+ *		    "col": 0,
+ *		    "row": 1,
+ *		    "label": "M",
+ *		    "score": 5,
+ *		    "row_label": "C"
+ *		}, {
+ *		    "col": 1,
+ *		    "row": 0,
+ *		    "label": "M",
+ *		    "score": 43,
+ *		    "row_label": "D"
+ *		}, {
+ *		    "col": 1,
+ *		    "row": 1,
+ *		    "label": "M",
+ *		    "score": 58,
+ *		    "row_label": "E"
+ *		}]
+ *	</pre>
+ *
+ * @optional {Onject} user_defined_config
+ *     Configuration options for the component
+ *     
+ * @optional {Onject} show_zoom_panel
+ *      Display the zoom panel. default: true
+ *      
+ * @optional {Onject} showScale
+ *      Display the scale object. default: true
+ *      
+ * @example
+ * var painter = new Biojs.HeatmapViewer({
+ *						jsonData: data,
+ *						user_defined_config: {
+ *							colorLow: 'blue',
+ *							colorMed: 'white',
+ *							colorHigh: 'red'
+ *						},
+ *						targetDiv: 'heatmapContainer',
+ *				});
+ *
+ *
+ * 
+ * 
  * @class
  * @extends Biojs
  */
 
 Biojs.HeatmapViewer = Biojs.extend({
- /** @lends Biojs.HeatmapViewer */
+	/** @lends Biojs.HeatmapViewer */
 	/**
 	 * public variables
 	 */
@@ -46,12 +103,11 @@ Biojs.HeatmapViewer = Biojs.extend({
 	_SLIDER_DIV: 'slider_heatmap_div',
 	_SCALE_DIV: 'scale_div',
 
-	_svg: undefined,
 	_origData: undefined,
 	_zoomedData: undefined,
 
-	_dimensions: {},
-	_viewer_config: {
+	viewer_config: {
+		dimensions: {},
 		displayDiv: '',
 		colorLow: 'green',
 		colorMed: 'white',
@@ -88,46 +144,27 @@ Biojs.HeatmapViewer = Biojs.extend({
 	},
 
 	constructor: function(options) {
-
-
-		/* Your constructor code here
-      Note: options provided on instantiation time overrides the
-      default values in this.opt, automatically; i.e. ‘options’
-      argument refers to the provided values and ‘this.opt’
-      refers to the  the overridden options. For more details,
-      go to section 6.3.2 in the spec. doc. */
 		this._origData = this.opt.jsonData;
 		this.targetDiv = this.opt.targetDiv;
 		this._init();
 		this._draw();
-		console.log(this.opt);
 
 	},
 
 	opt: {
-		/* Target DIV
-    This mandatory parameter is the identifier of the DIV tag where the
-    component should be displayed. Use this value to draw your
-    component into. */
+		 /**
+         * Default values for the options:
+         * targetDIV: "YourOwnDivId",
+         * jsonData: {},
+         * showScale: true,
+         * showExportToImageButton: false,
+         * @name Biojs.HeatmapViewer-opt
+         */
 		targetDiv: 'YourOwnDivId',
 		jsonData: {},
 		showScale: true,
-		showExportToImageButton: true,
+		showExportToImageButton: false,
 		show_zoom_panel: true
-
-
-		/* Component Options
-    These options defines the input data for your component.
-    Must have a default value for each one. Note that, either some or
-    all of values might be replaced by the constructor using the values
-    provided in instantiation time.
-
-    Define your own options here following the next syntax:
-       <option1>: <defaultValue1>,
-       <option2>: <defaultValue2>,
-       :
-       .
-       <optionN>: <defaultValueN> */
 	},
 
 	eventTypes: [
@@ -157,8 +194,6 @@ Biojs.HeatmapViewer = Biojs.extend({
 		var svg;
 		var d, i;
 
-
-
 		var drag = d3.behavior.drag()
 			.on("drag", function(d, i) {
 				d.x += d3.event.dx
@@ -169,8 +204,8 @@ Biojs.HeatmapViewer = Biojs.extend({
 
 		/**
 		 * [init description]
-		 * @param  {[type]} _config
-		 * @return {[type]}
+		 * @param  {[type]} _config [description]
+		 * @return {[type]}         [description]
 		 */
 		my.init = function(_config) {
 			var scoreLow = _config.scoreLow;
@@ -180,7 +215,6 @@ Biojs.HeatmapViewer = Biojs.extend({
 			var colorMid = _config.colorMid;
 			var colorHigh = _config.colorHigh;
 			var targetDiv = _config.targetDiv;
-
 
 			for (var idx = scoreLow; idx <= scoreHigh; idx++)
 				data_array.push(idx);
@@ -197,10 +231,9 @@ Biojs.HeatmapViewer = Biojs.extend({
 
 			var svg = d3.select("#" + targetDiv)
 				.append("svg").attr("id", targetDiv + "_svg")
-			// .attr("width", heatmap_viewer_config.heatmap_config.dimensions.canvas_width + heatmap_viewer_config.heatmap_config.canvas_margin.right + heatmap_viewer_config.heatmap_config.canvas_margin.left)
+				.attr("width", "100%")
+			// .attr("width", heatmapviewer_config.heatmap_config.dimensions.canvas_width + heatmapviewer_config.heatmap_config.canvas_margin.right + heatmapviewer_config.heatmap_config.canvas_margin.left)
 			.attr("height", "40");
-			// .attr("transform", "translate(" + heatmap_viewer_config.heatmap_config.canvas_margin.right + "," + heatmap_viewer_config.heatmap_config.canvas_margin.top + ")");
-
 
 			var g = svg.append("g")
 				.data([{
@@ -249,6 +282,11 @@ Biojs.HeatmapViewer = Biojs.extend({
 		return my;
 	}(jQuery)),
 
+/**
+ * Public module that renders a heatmap
+ * @param  {[type]} $ [description]
+ * @return {[type]}   [description]
+ */
 	HEATMAP: (function($) {
 		var svg;
 		var my = {};
@@ -288,21 +326,13 @@ Biojs.HeatmapViewer = Biojs.extend({
 		my.init = function(_configObj, _jsonData, _targteDiv) {
 			config = $.extend(config, _configObj);
 			this.setTargetDIV(_targteDiv);
-			// svg = _svg;
 			jsonData = _jsonData;
 			return my;
 		}
 		getData = function(argument) {
 			return jsonData;
 		}
-		my.setData = function(_dataObj) {
-			jsonData = _dataObj;
-			return my;
-		}
-		/**
-		 * [draw_axis description]
-		 * @return {[type]}
-		 */
+	
 		var draw_axis = function() {
 			var d, i;
 			var font_size = Math.min((config.dimensions.cell_width - 10), max_font_size);
@@ -387,17 +417,21 @@ Biojs.HeatmapViewer = Biojs.extend({
 					return config.dimensions.cell_height;
 				})
 				.style("fill", function(d) {
-					if (d.label == d.mut) return ('black ');
+					if (d.label == d.row_label) return ('black ');
 					else return colorScale(d.score);
 				})
 				.append("svg:title")
 				.text(function(d) {
-					return d.label + d.col + d.mut + " Score: " + d.score;
+					return d.label + d.col + d.row_label + " Score: " + d.score;
 				});
 		}
 		return my;
 	}(jQuery)),
-
+	/**
+	 * Private: renders a sliding frame on top of main matrix to show zoomed in area
+	 * @param  {Object} _config viewer's configuration 
+	 * @ignore
+	 */
 	_show_sliding_window: function(_config) {
 		var myself = this;
 		var current_x;
@@ -416,7 +450,6 @@ Biojs.HeatmapViewer = Biojs.extend({
 				myself._drawZoomDiv(d);
 				d3.select(this).style('cursor', '-webkit-grab');
 				d3.select(this).style('cursor', '-moz-grab');
-				// console.log(d.x);
 			})
 			.on("drag", function(d, i) {
 				d.x += d3.event.dx;
@@ -433,7 +466,7 @@ Biojs.HeatmapViewer = Biojs.extend({
 				})
 			});
 
-		var myframe = svg.append("svg:rect")
+		svg.append("svg:rect")
 			.attr("x", 0)
 			.attr("y", -5)
 			.attr("width", dimensions.frame_width)
@@ -450,6 +483,10 @@ Biojs.HeatmapViewer = Biojs.extend({
 			.call(drag);
 	},
 
+	/**
+	 * Private: renders the viewer object
+	 * @ignore
+	 */
 	_draw: function() {
 		var $hmDiv = jQuery("#" + this.opt.targetDiv);
 
@@ -459,117 +496,132 @@ Biojs.HeatmapViewer = Biojs.extend({
 				.css('width', '75%')
 				.css('margin', '25px'));
 		});
-		this.HEATMAP.init(this._viewer_config, this._origData, this._MAIN_HEAT_MAP_DIV).draw();
+		this.HEATMAP.init(this.viewer_config, this._origData, this._MAIN_HEAT_MAP_DIV).draw();
 
 
-		this.SCALE.init({
-			colorLow: this._viewer_config.colorLow,
-			colorMid: this._viewer_config.colorMed,
-			colorHigh: this._viewer_config.colorHigh,
+		if (this.opt.showScale)
+			this.SCALE.init({
+				colorLow: this.viewer_config.colorLow,
+				colorMid: this.viewer_config.colorMed,
+				colorHigh: this.viewer_config.colorHigh,
+				scoreLow: this.viewer_config.scoreLow,
+				scoreMid: this.viewer_config.scoreMed,
+				scoreHigh: this.viewer_config.scoreHigh,
+				targetDiv: this._SCALE_DIV
 
-			scoreLow: this._viewer_config.scoreLow,
-			scoreMid: this._viewer_config.scoreMed,
-			scoreHigh: this._viewer_config.scoreHigh,
-			targetDiv: this._SCALE_DIV
+			})
 
-		})
+		if (this.viewer_config.dimensions.cell_width < this.viewer_config.labels.min_font_size) {
+			this.viewer_config.main_heatmap.orig_cell_width = this.viewer_config.dimensions.cell_width;
 
-		if (this._viewer_config.dimensions.cell_width < this._viewer_config.labels.min_font_size) {
-			this._viewer_config.main_heatmap.orig_cell_width = this._viewer_config.dimensions.cell_width;
-
-			if (this.opt.show_zoom_panel)
+			if (this.opt.show_zoom_panel) {
 				this._show_sliding_window({
 					dimensions: {
-						cell_width: this._viewer_config.dimensions.cell_width,
-						cell_count: this._viewer_config.dimensions.cell_count,
-						frame_width: 60 * this._viewer_config.dimensions.cell_width,
-						height: this._viewer_config.dimensions.row_count * this._viewer_config.dimensions.cell_width
+						cell_width: this.viewer_config.dimensions.cell_width,
+						cell_count: this.viewer_config.dimensions.cell_count,
+						frame_width: 60 * this.viewer_config.dimensions.cell_width,
+						height: this.viewer_config.dimensions.row_count * this.viewer_config.dimensions.cell_width
 					},
 					svg: d3.select("#" + this._MAIN_HEAT_MAP_DIV + "_svg > g")
 				});
-			this._drawZoomDiv();
+				this._drawZoomDiv();
+			}
+
 		}
 	},
+	/**
+	 * Private: intialize the viewer. overrides defaults with user defined options
+	 * @ignore
+	 */
 	_init: function() {
-		var _tmpData = this._origData;
-		var _tmpCfg = this._viewer_config;
+		var tmpData = this._origData;
+		var tmpCfg = this.viewer_config;
 
 		// read in user defined _config
 		if (this.opt.user_defined_config != 'undefined') {
 			var _tmpUserCfg = this.opt.user_defined_config;
 			['colorLow', 'colorHigh', 'colorMed'].forEach(function(entry) {
-				if (_tmpCfg[entry])
-					_tmpCfg[entry] = _tmpUserCfg[entry];
+				if (tmpCfg[entry])
+					tmpCfg[entry] = _tmpUserCfg[entry];
 			});
 		}
 		this._calcHeatMap({
 			start: 0,
-			end: (_tmpData.length / 20) // TODO get number of rows autormatically!
+			end: (tmpData.length / 20) // TODO get number of rows autormatically!
 		});
 	},
-
+	/**
+	 * Private: renders a secondary heatmap for a selected region in the data
+	 * @param  {Object} d {x:<int>, y:<int> } defines the data range to display
+	 * @ignore
+	 */
 	_drawZoomDiv: function(d) {
-		var _start = 0;
+		var start = 0;
 
 		if (typeof d !== 'undefined')
-			_start = Math.floor(d.x / this._viewer_config.main_heatmap.orig_cell_width);
-		var _end = _start + this._viewer_config.slider.increments;
-		this._viewer_config.offset = _start;
+			start = Math.floor(d.x / this.viewer_config.main_heatmap.orig_cell_width);
+		var end = start + this.viewer_config.slider.increments;
+		this.viewer_config.offset = start;
 
 		this._calcHeatMap({
-			start: _start,
-			end: _end
+			start: start,
+			end: end
 		});
-		var $_zoom_div = jQuery('#' + this._ZOOM_HEAT_MAP_DIV);
-		if ($_zoom_div) {
-			$_zoom_div.empty();
-			this.HEATMAP.init(this._viewer_config, this._zoomedData, this._ZOOM_HEAT_MAP_DIV).draw();
+		var $zoom_div = jQuery('#' + this._ZOOM_HEAT_MAP_DIV);
+		if ($zoom_div) {
+			$zoom_div.empty();
+			this.HEATMAP.init(this.viewer_config, this._zoomedData, this._ZOOM_HEAT_MAP_DIV).draw();
 		}
 	},
-
+	/**
+	 * Private: Determines cell's size, grid size,
+	 * if rangeObj provided it determines the above only for the data within that range
+	 * populated the x and y axis
+	 * @param  {[Object]} rangeObj {start: <int>, end: <int>}} defines the data range to dislpay (optional)
+	 * @ignore
+	 */
 	_calcHeatMap: function(rangeObj) {
-		var _dimensions = {};
+		var dimensions = {};
 		var x_axis = [];
 		var y_axis = [];
-		var i;
 
-		var _jsonData, _tmpStart;
-		_tmpStart = 0;
+		var jsonData, tmpStart;
+		tmpStart = 0;
 
 		var $hmDiv = jQuery("#" + this.targetDiv);
-		_dimensions.canvas_width = $hmDiv.width();
+		dimensions.canvas_width = $hmDiv.width();
 		if (this._origData) {
 			if (typeof this.opt.jsonData != 'undefined') {
-				_jsonData = this._origData.slice(rangeObj.start * 20, rangeObj.end * 20);
-				_tmpStart = rangeObj.start;
+				jsonData = this._origData.slice(rangeObj.start * 20, rangeObj.end * 20);
+				tmpStart = rangeObj.start;
 			}
-			var _tmpCol = 0,
-				_tmpRow = 0,
+			var tmpCol = 0,
+				tmpRow = 0,
 				i = 0;
-			jQuery.each(_jsonData, function(k, v) {
+			jQuery.each(jsonData, function(k, v) {
 				if (v.row == 0) {
 					x_axis.push(v.label);
-					if (v.col > _tmpCol)
-						_tmpCol = v.col;
+					if (v.col > tmpCol)
+						tmpCol = v.col;
 				}
-				if ((v.col - _tmpStart) == 0)
-					y_axis.push(v.mut);
+				if ((v.col - tmpStart) == 0)
+					y_axis.push(v.row_label);
 
-				if (v.row > _tmpRow)
-					_tmpRow = v.row;
+				if (v.row > tmpRow)
+					tmpRow = v.row;
 			});
-			_dimensions.cell_count = _tmpCol - this._viewer_config.offset;
-			_dimensions.row_count = _tmpRow;
-			var _tmpCellSize = Math.max(Math.min(((_dimensions.canvas_width - this._viewer_config.canvas_margin.right - this._viewer_config.canvas_margin.left) / (_dimensions.cell_count + 1)),
-				this._viewer_config.main_heatmap.max_cell_width), this._viewer_config.main_heatmap.min_cell_width);
+			dimensions.cell_count = tmpCol - this.viewer_config.offset;
+			dimensions.row_count = tmpRow;
+			var tmpCellSize = Math.max(Math.min(((dimensions.canvas_width - this.viewer_config.canvas_margin.right - this.viewer_config.canvas_margin.left) / (dimensions.cell_count + 1)),
+				this.viewer_config.main_heatmap.max_cell_width), this.viewer_config.main_heatmap.min_cell_width);
 
-			_dimensions.cell_height = _dimensions.cell_width = _tmpCellSize;
-			_dimensions.canvas_height = (_dimensions.row_count + 1) * _dimensions.cell_height;
-			this._zoomedData = _jsonData;
+			dimensions.cell_height = dimensions.cell_width = tmpCellSize;
+			dimensions.canvas_height = (dimensions.row_count + 1) * dimensions.cell_height;
+			this._zoomedData = jsonData;
 		}
-		this._viewer_config.dimensions = jQuery.extend(true, {}, _dimensions);
-		this._viewer_config.x_axis = x_axis;
-		this._viewer_config.y_axis = y_axis;
-		this._viewer_config.slider.increments = Math.floor((_dimensions.canvas_width / this._viewer_config.zoom_area.cell_width) - 1);
+		this.viewer_config.dimensions = jQuery.extend(true, {}, dimensions);
+		this.viewer_config.x_axis = x_axis;
+		this.viewer_config.y_axis = y_axis;
+		this.viewer_config.slider.increments = Math.floor((dimensions.canvas_width / this.viewer_config.zoom_area.cell_width) - 1);
 	},
 });

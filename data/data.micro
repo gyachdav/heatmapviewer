@@ -1,0 +1,25 @@
+[{
+    "col": 0,
+    "row": 0,
+    "label": "M",
+    "score": 27,
+    "row_label": "A"
+}, {
+    "col": 0,
+    "row": 1,
+    "label": "M",
+    "score": 5,
+    "row_label": "C"
+}, {
+    "col": 1,
+    "row": 0,
+    "label": "M",
+    "score": 43,
+    "row_label": "D"
+}, {
+    "col": 1,
+    "row": 1,
+    "label": "M",
+    "score": 58,
+    "row_label": "E"
+}]
